@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Q'aliGo | Detalle de producto</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main class="product-detail-layout">
+    <section class="product-detail-image">
+      <img id="product-image" src="" alt="Producto" />
+    </section>
+
+    <section class="product-detail-info">
+      <a href="./menu.html" style="font-size:13px;color:#6b7280;">← Volver al menú</a>
+      <h1 id="product-name">Nombre producto</h1>
+      <p id="product-desc">Descripción producto.</p>
+      <h2 id="product-price">S/ 00.00</h2>
+
+      <div class="option-group">
+        <h3>Elige tu base</h3>
+        <div class="option-pill-row" id="base-options">
+          <button class="option-pill active">Quinoa</button>
+          <button class="option-pill">Arroz integral</button>
+          <button class="option-pill">Mix de hojas verdes</button>
+        </div>
+      </div>
+
+      <div class="option-group">
+        <h3>Proteína</h3>
+        <div class="option-pill-row" id="protein-options">
+          <button class="option-pill active">Pollo grillado</button>
+          <button class="option-pill">Tofu</button>
+          <button class="option-pill">Legumbres</button>
+        </div>
+      </div>
+
+      <div class="option-group">
+        <h3>Toppings (+ S/ 1.50)</h3>
+        <div class="option-pill-row" id="topping-options">
+          <button class="option-pill">Palta</button>
+          <button class="option-pill">Queso feta</button>
+          <button class="option-pill">Semillas</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;align-items:center;gap:12px;">
+        <button class="btn-add" id="btn-add-product-detail">Añadir al carrito</button>
+        <span style="font-size:13px;color:#6b7280;">Información nutricional disponible en tu perfil</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

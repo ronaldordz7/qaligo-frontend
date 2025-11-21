@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Q'aliGo | Checkout</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="checkout">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="menu.html" class="logo">Q'aliGo</a>
+      <a href="menu.html" class="nav-link">Menú</a>
+      <a href="profile.html" class="nav-link">Mi Cuenta</a>
+    </div>
+
+    <div class="navbar-center">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Buscar en el menú..." />
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
+      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+        🛒 <span id="nav-cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="checkout-layout">
+    <!-- Formulario de envío/pago (simple) -->
+    <section class="card-form">
+      <h2>Datos de entrega</h2>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Nombre completo</label>
+          <input id="ship-name" type="text" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Dirección</label>
+          <input id="ship-address" type="text" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Ciudad</label>
+          <input id="ship-city" type="text" />
+        </div>
+        <div class="form-field">
+          <label>Referencia</label>
+          <input id="ship-ref" type="text" />
+        </div>
+      </div>
+
+      <h2 style="margin-top:16px;">Método de pago (demo)</h2>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Número de tarjeta</label>
+          <input id="card-number" type="text" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Expira</label>
+          <input id="card-exp" type="text" placeholder="MM/AA" />
+        </div>
+        <div class="form-field">
+          <label>CVC</label>
+          <input id="card-cvc" type="password" />
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-confirm-order">Confirmar pedido</button>
+      <p id="checkout-message" class="status-text"></p>
+    </section>
+
+    <!-- Resumen del pedido -->
+    <aside class="cart-panel">
+      <h2>Resumen del pedido</h2>
+      <div class="cart-items" id="checkout-items"></div>
+
+      <div class="cart-summary">
+        <span>Subtotal</span>
+        <span id="checkout-subtotal">S/ 0.00</span>
+      </div>
+      <div class="cart-summary">
+        <span>Envío</span>
+        <span id="checkout-shipping">S/ 5.00</span>
+      </div>
+      <div class="cart-summary total-row">
+        <span>Total</span>
+        <span id="checkout-total">S/ 0.00</span>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

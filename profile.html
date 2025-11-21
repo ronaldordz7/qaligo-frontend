@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Q'aliGo | Mi Perfil</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="profile">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="menu.html" class="logo">Q'aliGo</a>
+      <a href="menu.html" class="nav-link">Menú</a>
+      <a href="profile.html" class="nav-link nav-link-active">Mi Cuenta</a>
+    </div>
+
+    <div class="navbar-center">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar en el menú..." disabled />
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
+      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+        🛒 <span id="nav-cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="profile-layout">
+    <section class="card-form">
+      <h2>Información personal</h2>
+      <p id="profile-name" class="profile-name"></p>
+      <p id="profile-email" class="profile-email"></p>
+
+      <button class="btn-outline" id="btn-logout">Cerrar sesión</button>
+    </section>
+
+    <section class="card-form">
+      <h2>Historial de pedidos</h2>
+      <div id="orders-list" class="orders-list"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

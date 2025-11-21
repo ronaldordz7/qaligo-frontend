@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Q'aliGo | Iniciar sesión</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="login">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="menu.html" class="logo">Q'aliGo</a>
+      <a href="menu.html" class="nav-link">Menú</a>
+      <a href="profile.html" class="nav-link">Mi Cuenta</a>
+    </div>
+
+    <div class="navbar-center">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar en el menú..." disabled />
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
+      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+        🛒 <span id="nav-cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="auth-layout">
+    <section class="auth-left">
+      <h1>Bienvenido a Q'aliGo</h1>
+      <p>Inicia sesión para continuar con tu pedido saludable.</p>
+
+      <div class="form-field">
+        <label>Correo electrónico</label>
+        <input id="login-email" type="email" />
+      </div>
+      <div class="form-field">
+        <label>Contraseña</label>
+        <input id="login-password" type="password" />
+      </div>
+
+      <button class="btn-primary" id="btn-login">Iniciar sesión</button>
+
+      <p class="small-text">
+        ¿No tienes cuenta?
+        <a href="register.html" class="link-green">Crear cuenta</a>
+      </p>
+
+      <p id="login-message" class="status-text"></p>
+    </section>
+
+    <section class="auth-right"></section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
