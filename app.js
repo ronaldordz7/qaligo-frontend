@@ -1,7 +1,7 @@
 // =========================
 // CONFIGURACIÓN
 // =========================
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = "https://qaligo-backend.onrender.com";
 
 const STORAGE_CART_KEY = "qaligo_cart";
 const STORAGE_TOKEN_KEY = "qaligo_token";
