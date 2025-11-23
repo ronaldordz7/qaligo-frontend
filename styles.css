@@ -1115,3 +1115,59 @@ img {
   font-size: 13px;
   color: var(--text-muted);
 }
+
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 40px;
+}
+
+.admin-card {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+
+.admin-layout {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+}
+
+.admin-list {
+  margin-top: 12px;
+}
+
+.admin-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 5px rgba(15, 23, 42, 0.08);
+  font-size: 14px;
+}
+
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.admin-order-status {
+  margin-top: 8px;
+}
+
+.admin-status-select {
+  margin-left: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  font-size: 12px;
+}

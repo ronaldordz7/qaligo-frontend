@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel administrador | Q'aliGo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="admin">
+
+  <!-- NAVBAR (puedes copiar el de menu.html) -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="menu.html" class="logo">Q'aliGo</a>
+      <a href="menu.html" class="nav-link">Menú</a>
+      <a href="profile.html" class="nav-link">Mi Cuenta</a>
+      <a href="admin.html" class="nav-link nav-link-active">Admin</a>
+    </div>
+
+    <div class="navbar-center">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Panel administrador" disabled />
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
+      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+        🛒 <span id="nav-cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="admin-layout">
+    <section>
+      <h2>Pedidos</h2>
+      <div id="admin-orders-list" class="admin-list">
+        Cargando pedidos...
+      </div>
+    </section>
+
+    <section>
+      <h2>Usuarios</h2>
+      <div id="admin-users-list" class="admin-list">
+        Cargando usuarios...
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

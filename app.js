@@ -502,6 +502,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initAuthPages();
   } else if (page === "profile") {
     initProfilePage();
+  }  else if (page === "admin") {
+    initAdminPage();
   }
 });
 
@@ -516,3 +518,115 @@ document.addEventListener("click", (e) => {
     changeCartQuantity(id, delta);
   }
 });
+
+
+function requireAdmin(req, res, next) {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({ message: "Acceso denegado" });
+  }
+  next();
+}
+module.exports = { requireAuth, requireAdmin };
+
+
+
+// =========================
+// ADMIN PANEL
+// =========================
+async function initAdminPage() {
+  if (!currentUser || currentUser.role !== "admin") {
+    alert("No tienes acceso al panel de administrador.");
+    window.location.href = "menu.html";
+    return;
+  }
+
+  const ordersList = document.getElementById("admin-orders-list");
+  const usersList = document.getElementById("admin-users-list");
+
+  // ---- Pedidos ----
+  try {
+    const res = await apiFetch("/api/admin/orders");
+    if (!res.ok) throw new Error("Error obteniendo pedidos");
+    const orders = await res.json();
+
+    if (!orders.length) {
+      ordersList.innerHTML = "<p>No hay pedidos registrados aún.</p>";
+    } else {
+      ordersList.innerHTML = "";
+      orders.forEach((order) => {
+        const div = document.createElement("div");
+        div.className = "admin-card";
+        div.innerHTML = `
+          <div class="admin-card-header">
+            <strong>Pedido #${order.id}</strong>
+            <span>${new Date(order.createdAt).toLocaleString()}</span>
+          </div>
+          <div>Cliente: ${order.user?.name || ""} (${order.user?.email || ""})</div>
+          <div>Total: S/ ${Number(order.total).toFixed(2)}</div>
+          <div>Items: ${order.orderItems.length}</div>
+          <div class="admin-order-status">
+            Estado:
+            <select data-order-id="${order.id}" class="admin-status-select">
+              <option value="PENDING"   ${order.status === "PENDING" ? "selected" : ""}>Pendiente</option>
+              <option value="PREPARING" ${order.status === "PREPARING" ? "selected" : ""}>Preparando</option>
+              <option value="DELIVERED" ${order.status === "DELIVERED" ? "selected" : ""}>Entregado</option>
+              <option value="CANCELLED" ${order.status === "CANCELLED" ? "selected" : ""}>Cancelado</option>
+            </select>
+          </div>
+        `;
+        ordersList.appendChild(div);
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    ordersList.innerHTML = "<p>Error cargando pedidos.</p>";
+  }
+
+  // ---- Usuarios ----
+  try {
+    const resU = await apiFetch("/api/admin/users");
+    if (!resU.ok) throw new Error("Error obteniendo usuarios");
+    const users = await resU.json();
+
+    if (!users.length) {
+      usersList.innerHTML = "<p>No hay usuarios registrados.</p>";
+    } else {
+      usersList.innerHTML = "";
+      users.forEach((u) => {
+        const div = document.createElement("div");
+        div.className = "admin-card";
+        div.innerHTML = `
+          <div><strong>${u.name}</strong></div>
+          <div>${u.email}</div>
+          <div>Rol: ${u.role}</div>
+          <div>Registrado: ${new Date(u.createdAt).toLocaleDateString()}</div>
+        `;
+        usersList.appendChild(div);
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    usersList.innerHTML = "<p>Error cargando usuarios.</p>";
+  }
+
+  // ---- Cambio de estado de pedidos ----
+  ordersList.addEventListener("change", async (e) => {
+    if (e.target.matches(".admin-status-select")) {
+      const orderId = e.target.dataset.orderId;
+      const newStatus = e.target.value;
+
+      try {
+        const res = await apiFetch(`/api/admin/orders/${orderId}/status`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: newStatus }),
+        });
+
+        if (!res.ok) throw new Error("Error actualizando estado");
+      } catch (err) {
+        console.error(err);
+        alert("No se pudo actualizar el estado del pedido.");
+      }
+    }
+  });
+}
