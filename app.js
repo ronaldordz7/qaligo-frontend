@@ -397,7 +397,7 @@ async function initProfilePage() {
 
   const ordersList = document.getElementById("orders-list");
   try {
-    const res = await apiFetch(`api/orders/${currentUser.id}`);
+    const res = await apiFetch(`/api/orders/${currentUser.id}`);
     if (!res.ok) throw new Error("Error obteniendo órdenes");
     const orders = await res.json();
 
