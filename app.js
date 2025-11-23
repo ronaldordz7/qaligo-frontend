@@ -24,6 +24,7 @@ function setAuth(user, jwtToken) {
   token = jwtToken;
   localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
   localStorage.setItem(STORAGE_TOKEN_KEY, jwtToken);
+  console.log("User saved:", user);
   updateNavAuth();
 }
 
