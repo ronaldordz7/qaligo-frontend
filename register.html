@@ -9,55 +9,80 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="navbar-left">
-      <a href="menu.html" class="logo">Q'aliGo</a>
-      <a href="menu.html" class="nav-link">Menú</a>
-      <a href="profile.html" class="nav-link">Mi Cuenta</a>
-    </div>
+    <div class="navbar-inner">
 
-    <div class="navbar-center">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Buscar en el menú..." disabled />
+      <!-- IZQUIERDA -->
+      <div class="navbar-left">
+        <a href="menu.html" class="logo">
+          <span class="logo-mark">🥗</span>
+          <span class="logo-text">Q'aliGo</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="menu.html" class="nav-link">Menú</a>
+          <a href="profile.html" class="nav-link">Mi Cuenta</a>
+        </nav>
       </div>
-    </div>
 
-    <div class="navbar-right">
-      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
-      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
-        🛒 <span id="nav-cart-count">0</span>
-      </button>
+      <!-- CENTRO -->
+      <div class="navbar-center">
+        <div class="search-box" style="opacity:0.5;">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Buscar..." disabled />
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="navbar-right">
+        <a id="nav-auth-btn" href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+
+        <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+          🛒 <span id="nav-cart-count" class="nav-cart-count">0</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
+  <!-- LAYOUT PRINCIPAL -->
   <main class="auth-layout">
+
+    <!-- COLUMNA IZQUIERDA -->
     <section class="auth-left">
       <h1>Comienza tu viaje saludable</h1>
       <p>Crea tu cuenta en Q'aliGo en minutos.</p>
 
-      <div class="form-field">
-        <label>Nombre completo</label>
-        <input id="reg-name" type="text" />
-      </div>
-      <div class="form-field">
-        <label>Correo electrónico</label>
-        <input id="reg-email" type="email" />
-      </div>
-      <div class="form-field">
-        <label>Contraseña</label>
-        <input id="reg-password" type="password" />
-      </div>
+      <div class="auth-form">
 
-      <button class="btn-primary" id="btn-register">Crear cuenta</button>
+        <div class="form-field">
+          <label>Nombre completo</label>
+          <input id="reg-name" type="text" />
+        </div>
 
-      <p class="small-text">
-        ¿Ya tienes cuenta?
-        <a href="login.html" class="link-green">Inicia sesión</a>
-      </p>
+        <div class="form-field">
+          <label>Correo electrónico</label>
+          <input id="reg-email" type="email" />
+        </div>
 
-      <p id="register-message" class="status-text"></p>
+        <div class="form-field">
+          <label>Contraseña</label>
+          <input id="reg-password" type="password" />
+        </div>
+
+        <button class="btn btn--primary" id="btn-register">
+          Crear cuenta
+        </button>
+
+        <p class="auth-meta">
+          ¿Ya tienes cuenta?
+          <a href="login.html">Inicia sesión</a>
+        </p>
+
+        <p id="register-message" class="status-text"></p>
+      </div>
     </section>
 
+    <!-- COLUMNA DERECHA (IMAGEN) -->
     <section class="auth-right"></section>
   </main>
 

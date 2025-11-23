@@ -9,73 +9,99 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="navbar-left">
-      <a href="menu.html" class="logo">Q'aliGo</a>
-      <a href="menu.html" class="nav-link">Menú</a>
-      <a href="profile.html" class="nav-link">Mi Cuenta</a>
-    </div>
+    <div class="navbar-inner">
 
-    <div class="navbar-center">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Buscar en el menú..." />
+      <!-- IZQUIERDA -->
+      <div class="navbar-left">
+        <a href="menu.html" class="logo">
+          <span class="logo-mark">🥗</span>
+          <span class="logo-text">Q'aliGo</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="menu.html" class="nav-link nav-link--active">Menú</a>
+          <a href="profile.html" class="nav-link">Mi Cuenta</a>
+        </nav>
       </div>
-    </div>
 
-    <div class="navbar-right">
-      <button class="nav-icon-btn" id="nav-chat-toggle">💬</button>
-      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
-      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
-        🛒 <span id="nav-cart-count">0</span>
-      </button>
+      <!-- CENTRO -->
+      <div class="navbar-center">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Buscar en el menú..." />
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="navbar-right">
+        <button class="nav-icon-btn" id="nav-chat-toggle">💬</button>
+        <a id="nav-auth-btn" href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+
+        <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+          🛒
+          <span id="nav-cart-count" class="nav-cart-count">0</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="main-layout">
-    <!-- Columna izquierda: título + filtros + grid -->
+
+    <!-- COLUMNA IZQUIERDA -->
     <section>
       <div class="main-left-header">
         <h1>Comida saludable, entregada rápido.</h1>
         <p>Descubre bowls, ensaladas y wraps pensados para tu día.</p>
       </div>
 
-      <!-- Filtros -->
+      <!-- FILTROS -->
       <div class="filter-row" id="filter-row"></div>
 
-      <!-- Grid de productos -->
+      <!-- GRID DE PRODUCTOS -->
       <div class="product-grid" id="product-grid"></div>
     </section>
 
-    <!-- Columna derecha: carrito + chatbot -->
+    <!-- COLUMNA DERECHA (CARRITO + CHATBOT) -->
     <aside>
-      <!-- Carrito -->
+
+      <!-- CARRITO -->
       <section class="cart-panel">
-        <h2>Tu Pedido</h2>
+        <h2 class="cart-title">Tu Pedido</h2>
+
         <div class="cart-items" id="cart-items"></div>
+
         <div class="cart-summary">
           <span>Total</span>
           <span id="cart-total">S/ 0.00</span>
         </div>
-        <button class="btn-primary" id="btn-go-checkout">Ir a pagar</button>
+
+        <button class="btn btn--primary cart-checkout-btn" id="btn-go-checkout">
+          Ir a pagar
+        </button>
       </section>
 
-      <!-- Chatbot -->
+      <!-- CHATBOT -->
       <section class="chatbot-panel" id="chatbot-panel">
-        <div class="chat-header">Asistente Q'aliBot</div>
+        <div class="chat-header">Asistente Virtual</div>
         <small class="chat-subtitle">
           Te ayudo a elegir según tu objetivo: ligero, alto en proteína, vegano...
         </small>
+
         <div class="chat-log" id="chat-log"></div>
+
         <div class="chat-input-row">
           <input id="chat-input" placeholder="Ej: quiero algo bajo en calorías" />
-          <button id="chat-send-btn">▶</button>
+          <button id="chat-send-btn" class="btn--icon-pill">▶</button>
         </div>
+
       </section>
+
     </aside>
+
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
-

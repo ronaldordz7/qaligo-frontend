@@ -9,29 +9,45 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="navbar-left">
-      <a href="menu.html" class="logo">Q'aliGo</a>
-      <a href="menu.html" class="nav-link">Menú</a>
-      <a href="profile.html" class="nav-link">Mi Cuenta</a>
-    </div>
+    <div class="navbar-inner">
 
-    <div class="navbar-center">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Buscar en el menú..." />
+      <!-- IZQUIERDA -->
+      <div class="navbar-left">
+        <a href="menu.html" class="logo">
+          <span class="logo-mark">🥗</span>
+          <span class="logo-text">Q'aliGo</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="menu.html" class="nav-link">Menú</a>
+          <a href="profile.html" class="nav-link">Mi Cuenta</a>
+        </nav>
       </div>
-    </div>
 
-    <div class="navbar-right">
-      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
-      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
-        🛒 <span id="nav-cart-count">0</span>
-      </button>
+      <!-- CENTRO -->
+      <div class="navbar-center">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Buscar en el menú..." />
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="navbar-right">
+        <a id="nav-auth-btn" href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+
+        <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+          🛒 <span id="nav-cart-count" class="nav-cart-count">0</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
+  <!-- LAYOUT PRINCIPAL -->
   <main class="checkout-layout">
-    <!-- Formulario de envío/pago (simple) -->
+
+    <!-- FORMULARIO DE ENVÍO Y PAGO -->
     <section class="card-form">
       <h2>Datos de entrega</h2>
 
@@ -60,13 +76,15 @@
         </div>
       </div>
 
-      <h2 style="margin-top:16px;">Método de pago (demo)</h2>
+      <h2 style="margin-top:16px;">Método de Pago</h2>
+
       <div class="form-row">
         <div class="form-field">
           <label>Número de tarjeta</label>
           <input id="card-number" type="text" />
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-field">
           <label>Expira</label>
@@ -78,28 +96,32 @@
         </div>
       </div>
 
-      <button class="btn-primary" id="btn-confirm-order">Confirmar pedido</button>
+      <button class="btn btn--primary" id="btn-confirm-order">Confirmar pedido</button>
       <p id="checkout-message" class="status-text"></p>
     </section>
 
-    <!-- Resumen del pedido -->
+    <!-- RESUMEN DEL PEDIDO -->
     <aside class="cart-panel">
-      <h2>Resumen del pedido</h2>
+      <h2 class="cart-title">Resumen del pedido</h2>
+
       <div class="cart-items" id="checkout-items"></div>
 
       <div class="cart-summary">
         <span>Subtotal</span>
         <span id="checkout-subtotal">S/ 0.00</span>
       </div>
+
       <div class="cart-summary">
         <span>Envío</span>
         <span id="checkout-shipping">S/ 5.00</span>
       </div>
+
       <div class="cart-summary total-row">
         <span>Total</span>
         <span id="checkout-total">S/ 0.00</span>
       </div>
     </aside>
+
   </main>
 
   <script src="app.js"></script>

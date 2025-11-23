@@ -3,22 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <title>Q'aliGo | Detalle de producto</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <div id="navbar"></div>
+<body data-page="product">
 
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-inner">
+
+      <!-- IZQUIERDA -->
+      <div class="navbar-left">
+        <a href="menu.html" class="logo">
+          <span class="logo-mark">🥗</span>
+          <span class="logo-text">Q'aliGo</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="menu.html" class="nav-link">Menú</a>
+          <a href="profile.html" class="nav-link">Mi Cuenta</a>
+        </nav>
+      </div>
+
+      <!-- CENTRO -->
+      <div class="navbar-center">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" type="text" placeholder="Buscar..." disabled />
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="navbar-right">
+        <a href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+
+        <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+          🛒 <span id="nav-cart-count" class="nav-cart-count">0</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="product-detail-layout">
+
+    <!-- IMAGEN -->
     <section class="product-detail-image">
       <img id="product-image" src="" alt="Producto" />
     </section>
 
+    <!-- INFORMACIÓN -->
     <section class="product-detail-info">
-      <a href="./menu.html" style="font-size:13px;color:#6b7280;">← Volver al menú</a>
+      <a href="./menu.html" class="back-link">← Volver al menú</a>
+
       <h1 id="product-name">Nombre producto</h1>
       <p id="product-desc">Descripción producto.</p>
-      <h2 id="product-price">S/ 00.00</h2>
+      <h2 class="product-detail-price" id="product-price">S/ 00.00</h2>
 
+      <!-- BASE -->
       <div class="option-group">
         <h3>Elige tu base</h3>
         <div class="option-pill-row" id="base-options">
@@ -28,6 +70,7 @@
         </div>
       </div>
 
+      <!-- PROTEÍNA -->
       <div class="option-group">
         <h3>Proteína</h3>
         <div class="option-pill-row" id="protein-options">
@@ -37,6 +80,7 @@
         </div>
       </div>
 
+      <!-- TOPPINGS -->
       <div class="option-group">
         <h3>Toppings (+ S/ 1.50)</h3>
         <div class="option-pill-row" id="topping-options">
@@ -46,11 +90,17 @@
         </div>
       </div>
 
-      <div style="margin-top:12px;display:flex;align-items:center;gap:12px;">
-        <button class="btn-add" id="btn-add-product-detail">Añadir al carrito</button>
-        <span style="font-size:13px;color:#6b7280;">Información nutricional disponible en tu perfil</span>
+      <!-- BOTÓN AÑADIR -->
+      <div class="product-detail-actions">
+        <button class="btn btn--primary" id="btn-add-product-detail">
+          Añadir al carrito
+        </button>
+        <span class="nutrition-note">
+          Información nutricional disponible en tu perfil
+        </span>
       </div>
     </section>
+
   </main>
 
   <script src="./app.js"></script>

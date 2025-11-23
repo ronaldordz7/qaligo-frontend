@@ -1,22 +1,39 @@
 <header class="navbar">
-  <div class="navbar-left">
-    <a href="menu.html" class="logo">Q'aliGo</a>
-    <a href="menu.html" class="nav-link">Menú</a>
-    <a href="profile.html" class="nav-link">Mi Cuenta</a>
-  </div>
+  <div class="navbar-inner">
 
-  <div class="navbar-center">
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="search-input" placeholder="Buscar en el menú..." />
+    <!-- IZQUIERDA -->
+    <div class="navbar-left">
+      <a href="menu.html" class="logo">
+        <span class="logo-mark">🥗</span>
+        <span class="logo-text">Q'aliGo</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="menu.html" class="nav-link nav-link--active">Menú</a>
+        <a href="profile.html" class="nav-link">Mi Cuenta</a>
+      </nav>
     </div>
-  </div>
 
-  <div class="navbar-right">
-    <button class="nav-icon-btn" id="nav-chat-toggle">💬</button>
-    <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
-    <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
-      🛒 <span id="nav-cart-count">0</span>
-    </button>
+    <!-- CENTRO -->
+    <div class="navbar-center">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-input" placeholder="Buscar en el menú..." />
+      </div>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="navbar-right">
+      <button class="nav-icon-btn" id="nav-chat-toggle">💬</button>
+
+      <a id="nav-auth-btn" href="login.html" class="btn btn--ghost">
+        Iniciar sesión
+      </a>
+
+      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+        🛒 <span id="nav-cart-count" class="nav-cart-count">0</span>
+      </button>
+    </div>
+
   </div>
 </header>

@@ -9,54 +9,78 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="navbar-left">
-      <a href="menu.html" class="logo">Q'aliGo</a>
-      <a href="menu.html" class="nav-link">Menú</a>
-      <a href="profile.html" class="nav-link">Mi Cuenta</a>
-    </div>
+    <div class="navbar-inner">
 
-    <div class="navbar-center">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Buscar en el menú..." disabled />
+      <!-- IZQUIERDA -->
+      <div class="navbar-left">
+        <a href="menu.html" class="logo">
+          <span class="logo-mark">🥗</span>
+          <span class="logo-text">Q'aliGo</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="menu.html" class="nav-link">Menú</a>
+          <a href="profile.html" class="nav-link">Mi Cuenta</a>
+        </nav>
       </div>
-    </div>
 
-    <div class="navbar-right">
-      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
-      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
-        🛒 <span id="nav-cart-count">0</span>
-      </button>
+      <!-- CENTRO (BUSCADOR DESACTIVADO EN LOGIN) -->
+      <div class="navbar-center">
+        <div class="search-box" style="opacity:0.5;">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Buscar en el menú..." disabled />
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="navbar-right">
+        <a id="nav-auth-btn" href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+
+        <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+          🛒 <span id="nav-cart-count" class="nav-cart-count">0</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
+  <!-- LAYOUT PRINCIPAL LOGIN -->
   <main class="auth-layout">
+
+    <!-- COLUMNA IZQUIERDA (FORMULARIO) -->
     <section class="auth-left">
       <h1>Bienvenido a Q'aliGo</h1>
       <p>Inicia sesión para continuar con tu pedido saludable.</p>
 
-      <div class="form-field">
-        <label>Correo electrónico</label>
-        <input id="login-email" type="email" />
+      <div class="auth-form">
+
+        <div class="form-field">
+          <label>Correo electrónico</label>
+          <input id="login-email" type="email" />
+        </div>
+
+        <div class="form-field">
+          <label>Contraseña</label>
+          <input id="login-password" type="password" />
+        </div>
+
+        <button class="btn btn--primary" id="btn-login">Iniciar sesión</button>
+
+        <p class="auth-meta">
+          ¿No tienes cuenta?
+          <a href="register.html">Crear cuenta</a>
+        </p>
+
+        <p id="login-message" class="status-text"></p>
       </div>
-      <div class="form-field">
-        <label>Contraseña</label>
-        <input id="login-password" type="password" />
-      </div>
-
-      <button class="btn-primary" id="btn-login">Iniciar sesión</button>
-
-      <p class="small-text">
-        ¿No tienes cuenta?
-        <a href="register.html" class="link-green">Crear cuenta</a>
-      </p>
-
-      <p id="login-message" class="status-text"></p>
     </section>
 
+    <!-- COLUMNA DERECHA (IMAGEN) -->
     <section class="auth-right"></section>
+
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
+
