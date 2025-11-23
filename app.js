@@ -77,7 +77,8 @@ async function initMenuPage() {
   const searchInput = document.getElementById("search-input");
 
   try {
-    const res = await fetch(`${API_BASE}/products`);
+    const res = await apiFetch("/api/products");
+
     const products = await res.json();
 
     const categories = ["Todo", ...new Set(products.map((p) => p.category || "Otros"))];
@@ -262,7 +263,7 @@ function initCheckoutPage() {
     }));
 
     try {
-      const res = await apiFetch("/orders", {
+      const res = await apiFetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -330,7 +331,7 @@ function initAuthPages() {
       const password = document.getElementById("login-password").value;
 
       try {
-        const res = await fetch(`${API_BASE}/auth/login`, {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -363,7 +364,7 @@ function initAuthPages() {
       const password = document.getElementById("reg-password").value;
 
       try {
-        const res = await fetch(`${API_BASE}/auth/register`, {
+        const res = await fetch(`${API_BASE}/auth/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, password }),
@@ -409,7 +410,7 @@ async function initProfilePage() {
 
   const ordersList = document.getElementById("orders-list");
   try {
-    const res = await apiFetch(`/orders/${currentUser.id}`);
+    const res = await apiFetch(`api/orders/${currentUser.id}`);
     if (!res.ok) throw new Error("Error obteniendo órdenes");
     const orders = await res.json();
 
