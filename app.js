@@ -227,7 +227,6 @@ function renderCartPanel() {
         changeCartQuantity(id, delta);
       }
     },
-    { once: true }
   );
 }
 
