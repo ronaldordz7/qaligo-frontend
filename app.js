@@ -161,7 +161,6 @@ function renderProductGrid(products, grid) {
         if (product) addToCart(product);
       }
     },
-    { once: true }
   );
 }
 
