@@ -217,17 +217,6 @@ function renderCartPanel() {
   });
 
   totalEl.textContent = `S/ ${total.toFixed(2)}`;
-
-  itemsContainer.addEventListener(
-    "click",
-    (e) => {
-      if (e.target.tagName === "BUTTON") {
-        const id = Number(e.target.dataset.id);
-        const delta = Number(e.target.dataset.delta);
-        changeCartQuantity(id, delta);
-      }
-    },
-  );
 }
 
 // =========================
@@ -513,5 +502,17 @@ document.addEventListener("DOMContentLoaded", () => {
     initAuthPages();
   } else if (page === "profile") {
     initProfilePage();
+  }
+});
+
+
+// =========================
+// LISTENER GLOBAL DEL CARRITO
+// =========================
+document.addEventListener("click", (e) => {
+  if (e.target.matches(".cart-item-controls button")) {
+    const id = Number(e.target.dataset.id);
+    const delta = Number(e.target.dataset.delta);
+    changeCartQuantity(id, delta);
   }
 });
