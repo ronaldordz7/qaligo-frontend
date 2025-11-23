@@ -351,7 +351,7 @@ function initAuthPages() {
       const password = document.getElementById("reg-password").value;
 
       try {
-        const res = await fetch(`${API_BASE}/auth/auth/register`, {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, password }),
