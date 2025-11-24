@@ -20,13 +20,23 @@ function saveCart() {
 }
 
 function setAuth(user, jwtToken) {
-  currentUser = user;
+  currentUser = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: user.role || user.role === undefined ? "user" : user.role
+  };
+
   token = jwtToken;
-  localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
+
+  localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(currentUser));
   localStorage.setItem(STORAGE_TOKEN_KEY, jwtToken);
-  console.log("User saved:", user);
+
+  console.log("User saved:", currentUser);
+
   updateNavAuth();
 }
+
 
 function clearAuth() {
   currentUser = null;
