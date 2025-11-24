@@ -19,11 +19,25 @@ function saveCart() {
   updateNavCartCount();
 }
 
+console.log("JWT recibido:", jwtToken);
+console.log("Decoded:", decoded);
+
 function setAuth(user, jwtToken) {
+  if (!jwtToken) {
+    console.error("No JWT token received");
+    return;
+  }
+
+  // DECODIFICAR TOKEN CORRECTAMENTE
+  const payload = jwtToken.split(".")[1];
+  const decoded = JSON.parse(atob(payload));
+
+  console.log("🎯 Decoded JWT:", decoded);
+
   currentUser = {
     id: decoded.id,
     email: decoded.email,
-    name: user.name,
+    name: decoded.name ?? user.name,
     role: decoded.role
   };
 
@@ -31,8 +45,6 @@ function setAuth(user, jwtToken) {
 
   localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(currentUser));
   localStorage.setItem(STORAGE_TOKEN_KEY, jwtToken);
-
-  console.log("User saved:", currentUser);
 
   updateNavAuth();
 }
