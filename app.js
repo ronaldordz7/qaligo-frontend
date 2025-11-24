@@ -546,7 +546,7 @@ async function initAdminPage() {
 
   // ---- Pedidos ----
   try {
-    const res = await apiFetch("/api/admin/orders");
+    const res = await apiFetch("/api/orders");
     if (!res.ok) throw new Error("Error obteniendo pedidos");
     const orders = await res.json();
 
