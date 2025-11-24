@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Q'aliGo | Menú</title>
+  <title>Q'aliGo | Admin</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-page="menu">
 
-  <!-- NAVBAR -->
+<body data-page="admin">
+
+  <!-- NAVBAR (MISMA DEL MENÚ) -->
   <header class="navbar">
     <div class="navbar-inner">
 
@@ -19,16 +20,17 @@
         </a>
 
         <nav class="nav-links">
-          <a href="menu.html" class="nav-link nav-link--active">Menú</a>
+          <a href="menu.html" class="nav-link">Menú</a>
           <a href="profile.html" class="nav-link">Mi Cuenta</a>
+          <a href="admin.html" class="nav-link nav-link--active">Admin</a>
         </nav>
       </div>
 
       <!-- CENTRO -->
       <div class="navbar-center">
-        <div class="search-box">
+        <div class="search-box search-box--disabled">
           <span class="search-icon">🔍</span>
-          <input type="text" id="search-input" class="search-input" placeholder="Buscar en el menú..." />
+          <input disabled type="text" class="search-input" placeholder="Administración" />
         </div>
       </div>
 
@@ -46,53 +48,49 @@
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
+  <!-- CONTENIDO ADMIN -->
   <main class="main-layout">
 
-    <!-- COLUMNA IZQUIERDA -->
+    <!-- COLUMNA IZQUIERDA ADMIN -->
     <section>
       <div class="main-left-header">
-        <h1>Comida saludable, entregada rápido.</h1>
-        <p>Descubre bowls, ensaladas y wraps pensados para tu día.</p>
+        <h1>Panel de Administración</h1>
+        <p>Controla pedidos, usuarios y estados del sistema.</p>
       </div>
 
-      <!-- FILTROS -->
-      <div class="filter-row" id="filter-row"></div>
+      <!-- SECCIÓN DE PEDIDOS -->
+      <section class="cart-panel" style="margin-bottom: 32px;">
+        <h2 class="cart-title">📦 Pedidos</h2>
 
-      <!-- GRID DE PRODUCTOS -->
-      <div class="product-grid" id="product-grid"></div>
+        <div id="admin-orders-list" class="admin-list">
+          <p>Cargando pedidos...</p>
+        </div>
+      </section>
+
+      <!-- SECCIÓN DE USUARIOS -->
+      <section class="cart-panel">
+        <h2 class="cart-title">👤 Usuarios</h2>
+
+        <div id="admin-users-list" class="admin-list">
+          <p>Cargando usuarios...</p>
+        </div>
+      </section>
     </section>
 
-    <!-- COLUMNA DERECHA (CARRITO + CHATBOT) -->
+    <!-- COLUMNA DERECHA (CHATBOT Y/O VACÍA) -->
     <aside>
-
-      <!-- CARRITO -->
-      <section class="cart-panel">
-        <h2 class="cart-title">Tu Pedido</h2>
-
-        <div class="cart-items" id="cart-items"></div>
-
-        <div class="cart-summary">
-          <span>Total</span>
-          <span id="cart-total">S/ 0.00</span>
-        </div>
-
-        <button class="btn btn--primary cart-checkout-btn" id="btn-go-checkout">
-          Ir a pagar
-        </button>
-      </section>
 
       <!-- CHATBOT -->
       <section class="chatbot-panel" id="chatbot-panel">
         <div class="chat-header">Asistente Virtual</div>
         <small class="chat-subtitle">
-          Te ayudo a elegir según tu objetivo: ligero, alto en proteína, vegano...
+          AdminBot te puede explicar estados, flujos y operaciones.
         </small>
 
         <div class="chat-log" id="chat-log"></div>
 
         <div class="chat-input-row">
-          <input id="chat-input" placeholder="Ej: quiero algo bajo en calorías" />
+          <input id="chat-input" placeholder="Ej: ¿qué significa PREPARING?" />
           <button id="chat-send-btn" class="btn--icon-pill">▶</button>
         </div>
 
