@@ -24,7 +24,7 @@ function setAuth(user, jwtToken) {
     id: user.id,
     email: user.email,
     name: user.name,
-    role: user.role || user.role === undefined ? "user" : user.role
+    role: user.role ?? "user"
   };
 
   token = jwtToken;
