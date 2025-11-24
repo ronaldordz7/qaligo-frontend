@@ -21,8 +21,8 @@ function saveCart() {
 
 function setAuth(user, jwtToken) {
   currentUser = {
-    id: user.id,
-    email: user.email,
+    id: decoded.id,
+    email: decoded.email,
     name: user.name,
     role: decoded.role
   };
