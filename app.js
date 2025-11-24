@@ -614,3 +614,10 @@ document.addEventListener("click", e => {
     changeCartQuantity(id, delta);
   }
 });
+
+
+document.addEventListener("click", (e) => {
+  if (e.target.id === "btn-go-checkout") {
+    window.location.href = "checkout.html";
+  }
+});
