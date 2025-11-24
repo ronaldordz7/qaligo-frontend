@@ -19,37 +19,38 @@ function saveCart() {
   updateNavCartCount();
 }
 
-
 function setAuth(user, jwtToken) {
-
   console.log("JWT recibido:", jwtToken);
 
   if (!jwtToken) {
-    console.error("No JWT token received");
+    console.error("❌ No JWT token recibido");
     return;
   }
 
-  // DECODIFICAR TOKEN
-  const payload = jwtToken.split(".")[1];
-  const decoded = JSON.parse(atob(payload));
+  try {
+    // DECODIFICAR TOKEN
+    const payload = jwtToken.split(".")[1];
+    const decoded = JSON.parse(atob(payload));
 
-  console.log("🎯 Decoded JWT:", decoded);
+    console.log("🎯 Decoded JWT:", decoded);
 
-  currentUser = {
-    id: decoded.id,
-    email: decoded.email,
-    name: user.name,
-    role: decoded.role
-  };
+    currentUser = {
+      id: decoded.id,
+      email: decoded.email,
+      name: user.name ?? decoded.name,
+      role: decoded.role
+    };
 
-  token = jwtToken;
+    token = jwtToken;
 
-  localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(currentUser));
-  localStorage.setItem(STORAGE_TOKEN_KEY, jwtToken);
+    localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(currentUser));
+    localStorage.setItem(STORAGE_TOKEN_KEY, jwtToken);
 
-  updateNavAuth();
+    updateNavAuth();
+  } catch (err) {
+    console.error("❌ Error decodificando JWT:", err);
+  }
 }
-
 
 function clearAuth() {
   currentUser = null;
@@ -60,10 +61,12 @@ function clearAuth() {
 }
 
 function apiFetch(path, options = {}) {
-  const headers = {...(options.headers || {})};
+  const headers = { ...(options.headers || {}) };
+
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
+
   return fetch(`${API_BASE}${path}`, { ...options, headers });
 }
 
@@ -91,7 +94,7 @@ function updateNavCartCount() {
 }
 
 // =========================
-// PRODUCTOS & MENÚ
+// MENÚ DE PRODUCTOS
 // =========================
 async function initMenuPage() {
   const grid = document.getElementById("product-grid");
@@ -102,34 +105,34 @@ async function initMenuPage() {
 
   try {
     const res = await apiFetch("/api/products");
-
     const products = await res.json();
 
-    const categories = ["Todo", ...new Set(products.map((p) => p.category || "Otros"))];
-
-    // Filtros
+    // Crear filtros
+    const categories = ["Todo", ...new Set(products.map(p => p.category || "Otros"))];
     filterRow.innerHTML = "";
+
     categories.forEach((cat, idx) => {
       const btn = document.createElement("button");
       btn.className = "filter-pill" + (idx === 0 ? " active" : "");
       btn.textContent = cat;
-      btn.dataset.category = cat;
+
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".filter-pill").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".filter-pill").forEach(el => el.classList.remove("active"));
         btn.classList.add("active");
-        const filtered =
-          cat === "Todo" ? products : products.filter((p) => p.category === cat);
+
+        const filtered = cat === "Todo" ? products : products.filter(p => p.category === cat);
         renderProductGrid(filtered, grid);
       });
+
       filterRow.appendChild(btn);
     });
 
-    // Búsqueda por texto
+    // Buscador
     if (searchInput) {
-      searchInput.addEventListener("input", (e) => {
+      searchInput.addEventListener("input", e => {
         const text = e.target.value.toLowerCase();
         const filtered = products.filter(
-          (p) =>
+          p =>
             p.name.toLowerCase().includes(text) ||
             (p.description && p.description.toLowerCase().includes(text))
         );
@@ -144,26 +147,18 @@ async function initMenuPage() {
   }
 
   renderCartPanel();
-
-  const btnCheckout = document.getElementById("btn-go-checkout");
-  if (btnCheckout) {
-    btnCheckout.addEventListener("click", () => {
-      window.location.href = "checkout.html";
-    });
-  }
-
-  setupChatbot();
 }
 
 function renderProductGrid(products, grid) {
   grid.innerHTML = "";
-  products.forEach((p) => {
+  products.forEach(p => {
     const price = Number(p.price);
     const card = document.createElement("article");
+
     card.className = "product-card";
     card.innerHTML = `
       <img src="${p.imageUrl ||
-        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"}" alt="${p.name}">
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"}" />
       <div class="product-card-body">
         <div class="product-card-title">${p.name}</div>
         <div class="product-card-desc">${p.description || ""}</div>
@@ -173,45 +168,39 @@ function renderProductGrid(products, grid) {
         </div>
       </div>
     `;
+
     grid.appendChild(card);
   });
 
-  grid.addEventListener(
-    "click",
-    (e) => {
-      if (e.target.matches(".btn-add")) {
-        const id = Number(e.target.dataset.id);
-        const product = products.find((p) => p.id === id);
-        if (product) addToCart(product);
-      }
-    },
-  );
+  grid.addEventListener("click", e => {
+    if (e.target.matches(".btn-add")) {
+      const id = Number(e.target.dataset.id);
+      const product = products.find(p => p.id === id);
+      if (product) addToCart(product);
+    }
+  });
 }
 
 // =========================
 // CARRITO
 // =========================
 function addToCart(product) {
-  const existing = cart.find((i) => i.id === product.id);
-  if (existing) existing.qty += 1;
-  else
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price),
-      qty: 1,
-    });
+  const existing = cart.find(i => i.id === product.id);
+  existing ? (existing.qty += 1) : cart.push({ ...product, qty: 1 });
+
   saveCart();
   renderCartPanel();
 }
 
 function changeCartQuantity(productId, delta) {
-  const item = cart.find((i) => i.id === productId);
+  const item = cart.find(i => i.id === productId);
   if (!item) return;
+
   item.qty += delta;
   if (item.qty <= 0) {
-    cart = cart.filter((i) => i.id !== productId);
+    cart = cart.filter(i => i.id !== productId);
   }
+
   saveCart();
   renderCartPanel();
 }
@@ -224,7 +213,7 @@ function renderCartPanel() {
   itemsContainer.innerHTML = "";
   let total = 0;
 
-  cart.forEach((item) => {
+  cart.forEach(item => {
     total += item.price * item.qty;
     const row = document.createElement("div");
     row.className = "cart-item-row";
@@ -247,30 +236,28 @@ function renderCartPanel() {
 // CHECKOUT
 // =========================
 function initCheckoutPage() {
-  const list = document.getElementById("checkout-items");
-  if (!list) return;
+  const btnConfirm = document.getElementById("btn-confirm-order");
+  const msgEl = document.getElementById("checkout-message");
+  if (!btnConfirm) return;
 
   updateCheckoutSummary();
 
-  const btnConfirm = document.getElementById("btn-confirm-order");
-  const msgEl = document.getElementById("checkout-message");
-
   btnConfirm.addEventListener("click", async () => {
     if (!currentUser || !token) {
-      msgEl.style.color = "#dc2626";
       msgEl.textContent = "Debes iniciar sesión para confirmar tu pedido.";
+      msgEl.style.color = "#dc2626";
       return;
     }
 
     if (cart.length === 0) {
-      msgEl.style.color = "#dc2626";
       msgEl.textContent = "Tu carrito está vacío.";
+      msgEl.style.color = "#dc2626";
       return;
     }
 
-    const itemsPayload = cart.map((item) => ({
+    const itemsPayload = cart.map(item => ({
       productId: item.id,
-      quantity: item.qty,
+      quantity: item.qty
     }));
 
     try {
@@ -279,14 +266,11 @@ function initCheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: currentUser.id,
-          items: itemsPayload,
-          // puedes agregar aquí address si luego lo manejas en el backend
-        }),
+          items: itemsPayload
+        })
       });
 
       if (!res.ok) throw new Error("Error en pedido");
-
-      await res.json();
 
       msgEl.style.color = "#16a34a";
       msgEl.textContent = "¡Pedido confirmado! 🎉";
@@ -307,12 +291,15 @@ function updateCheckoutSummary() {
   const subtotalEl = document.getElementById("checkout-subtotal");
   const shippingEl = document.getElementById("checkout-shipping");
   const totalEl = document.getElementById("checkout-total");
-  if (!list || !subtotalEl || !shippingEl || !totalEl) return;
+
+  if (!list) return;
 
   list.innerHTML = "";
   let subtotal = 0;
-  cart.forEach((item) => {
+
+  cart.forEach(item => {
     subtotal += item.price * item.qty;
+
     const row = document.createElement("div");
     row.className = "cart-item-row";
     row.innerHTML = `
@@ -323,6 +310,7 @@ function updateCheckoutSummary() {
   });
 
   const shipping = cart.length > 0 ? 5 : 0;
+
   subtotalEl.textContent = `S/ ${subtotal.toFixed(2)}`;
   shippingEl.textContent = `S/ ${shipping.toFixed(2)}`;
   totalEl.textContent = `S/ ${(subtotal + shipping).toFixed(2)}`;
@@ -335,22 +323,24 @@ function initAuthPages() {
   const btnLogin = document.getElementById("btn-login");
   const btnRegister = document.getElementById("btn-register");
 
+  // LOGIN
   if (btnLogin) {
     const msg = document.getElementById("login-message");
+
     btnLogin.addEventListener("click", async () => {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
 
       try {
         const res = await fetch(`${API_BASE}/api/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password })
         });
 
         if (!res.ok) throw new Error("Credenciales inválidas");
 
-        const data = await res.json(); // { user, token }
+        const data = await res.json();
         setAuth(data.user, data.token);
 
         msg.style.color = "#16a34a";
@@ -360,34 +350,33 @@ function initAuthPages() {
           window.location.href = "menu.html";
         }, 800);
       } catch (err) {
-        console.error(err);
         msg.style.color = "#dc2626";
         msg.textContent = "Error al iniciar sesión.";
       }
     });
   }
 
+  // REGISTRO
   if (btnRegister) {
     const msg = document.getElementById("register-message");
+
     btnRegister.addEventListener("click", async () => {
-      const name = document.getElementById("reg-name").value;
-      const email = document.getElementById("reg-email").value;
-      const password = document.getElementById("reg-password").value;
+      const name = document.getElementById("reg-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value.trim();
 
       try {
         const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ name, email, password })
         });
 
-        if (!res.ok) throw new Error("Error en registro");
+        if (!res.ok) throw new Error("Error al registrar");
 
-        await res.json();
         msg.style.color = "#16a34a";
         msg.textContent = "Registro exitoso. Ahora puedes iniciar sesión.";
       } catch (err) {
-        console.error(err);
         msg.style.color = "#dc2626";
         msg.textContent = "Error al registrar usuario.";
       }
@@ -396,7 +385,7 @@ function initAuthPages() {
 }
 
 // =========================
-// PERFIL + ÓRDENES
+// PERFIL
 // =========================
 async function initProfilePage() {
   const nameEl = document.getElementById("profile-name");
@@ -420,9 +409,11 @@ async function initProfilePage() {
   }
 
   const ordersList = document.getElementById("orders-list");
+
   try {
     const res = await apiFetch(`/api/orders/${currentUser.id}`);
     if (!res.ok) throw new Error("Error obteniendo órdenes");
+
     const orders = await res.json();
 
     if (!orders.length) {
@@ -431,18 +422,17 @@ async function initProfilePage() {
     }
 
     ordersList.innerHTML = "";
-    orders.forEach((order) => {
-      const card = document.createElement("div");
-      card.className = "order-card";
-      card.innerHTML = `
+    orders.forEach(order => {
+      const div = document.createElement("div");
+      div.className = "order-card";
+      div.innerHTML = `
         <div><strong>Pedido #${order.id}</strong> - ${order.status}</div>
         <div>Total: S/ ${Number(order.total).toFixed(2)}</div>
         <div>Items: ${order.orderItems.length}</div>
       `;
-      ordersList.appendChild(card);
+      ordersList.appendChild(div);
     });
   } catch (err) {
-    console.error(err);
     ordersList.innerHTML = "<p>Error al cargar pedidos.</p>";
   }
 }
@@ -455,11 +445,10 @@ function setupChatbot() {
   const log = document.getElementById("chat-log");
   const input = document.getElementById("chat-input");
   const btn = document.getElementById("chat-send-btn");
-  const toggleBtn = document.getElementById("nav-chat-toggle");
 
   if (!panel || !log || !input || !btn) return;
 
-  const pushBot = (text) => {
+  const pushBot = text => {
     const div = document.createElement("div");
     div.className = "chat-msg-bot";
     div.textContent = text;
@@ -467,7 +456,7 @@ function setupChatbot() {
     log.scrollTop = log.scrollHeight;
   };
 
-  const pushUser = (text) => {
+  const pushUser = text => {
     const div = document.createElement("div");
     div.className = "chat-msg-user";
     div.textContent = text;
@@ -475,74 +464,25 @@ function setupChatbot() {
     log.scrollTop = log.scrollHeight;
   };
 
-  pushBot("¡Hola! Soy Q'aliBot 🤖. Dime si buscas algo ligero, alto en proteína o vegano.");
+  pushBot("¡Hola! Soy Q'aliBot 🤖. ¿Qué buscas hoy?");
 
   btn.addEventListener("click", () => {
     const text = input.value.trim();
     if (!text) return;
+
     pushUser(text);
 
     const lower = text.toLowerCase();
-    let reply =
-      "Para algo balanceado te recomiendo nuestros bowls con quinoa, verduras y proteína magra.";
+    let reply = "Te recomiendo nuestros bowls balanceados con quinoa y verduras 😄";
 
-    if (lower.includes("ligero") || lower.includes("bajo en calorías")) {
-      reply = "Prueba una de nuestras ensaladas verdes, son súper ligeras. 🥗";
-    } else if (lower.includes("proteína") || lower.includes("gym")) {
-      reply =
-        "Los bowls con pollo o tofu y quinoa son ideales para alta proteína sin exceso de grasa.";
-    } else if (lower.includes("vegano") || lower.includes("vegetal")) {
-      reply =
-        "Tenemos wraps y bowls veganos con legumbres, quinoa y verduras frescas. 🌱";
-    }
+    if (lower.includes("ligero")) reply = "Prueba una ensalada fresca 🥗";
+    if (lower.includes("proteína")) reply = "Los bowls con pollo o tofu son ideales 💪";
+    if (lower.includes("vegano")) reply = "Tenemos wraps y bowls totalmente veganos 🌱";
 
     setTimeout(() => pushBot(reply), 400);
     input.value = "";
   });
-
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
-      panel.style.display = panel.style.display === "none" ? "flex" : "none";
-    });
-  }
 }
-
-// =========================
-// INICIALIZACIÓN
-// =========================
-document.addEventListener("DOMContentLoaded", () => {
-  updateNavAuth();
-  updateNavCartCount();
-
-  const page = document.body.dataset.page;
-
-  if (page === "menu") {
-    initMenuPage();
-  } else if (page === "checkout") {
-    renderCartPanel();
-    updateCheckoutSummary();
-    initCheckoutPage();
-  } else if (page === "login" || page === "register") {
-    initAuthPages();
-  } else if (page === "profile") {
-    initProfilePage();
-  }  else if (page === "admin") {
-    initAdminPage();
-  }
-});
-
-
-// =========================
-// LISTENER GLOBAL DEL CARRITO
-// =========================
-document.addEventListener("click", (e) => {
-  if (e.target.matches(".cart-item-controls button")) {
-    const id = Number(e.target.dataset.id);
-    const delta = Number(e.target.dataset.delta);
-    changeCartQuantity(id, delta);
-  }
-});
-
 
 // =========================
 // ADMIN PANEL
@@ -561,15 +501,17 @@ async function initAdminPage() {
   try {
     const res = await apiFetch("/api/orders");
     if (!res.ok) throw new Error("Error obteniendo pedidos");
+
     const orders = await res.json();
 
     if (!orders.length) {
       ordersList.innerHTML = "<p>No hay pedidos registrados aún.</p>";
     } else {
       ordersList.innerHTML = "";
-      orders.forEach((order) => {
+      orders.forEach(order => {
         const div = document.createElement("div");
         div.className = "admin-card";
+
         div.innerHTML = `
           <div class="admin-card-header">
             <strong>Pedido #${order.id}</strong>
@@ -588,11 +530,11 @@ async function initAdminPage() {
             </select>
           </div>
         `;
+
         ordersList.appendChild(div);
       });
     }
   } catch (err) {
-    console.error(err);
     ordersList.innerHTML = "<p>Error cargando pedidos.</p>";
   }
 
@@ -600,31 +542,31 @@ async function initAdminPage() {
   try {
     const resU = await apiFetch("/api/admin/users");
     if (!resU.ok) throw new Error("Error obteniendo usuarios");
+
     const users = await resU.json();
 
     if (!users.length) {
       usersList.innerHTML = "<p>No hay usuarios registrados.</p>";
     } else {
       usersList.innerHTML = "";
-      users.forEach((u) => {
+      users.forEach(u => {
         const div = document.createElement("div");
         div.className = "admin-card";
         div.innerHTML = `
           <div><strong>${u.name}</strong></div>
           <div>${u.email}</div>
           <div>Rol: ${u.role}</div>
-          <div>Registrado: ${new Date(u.createdAt).toLocaleDateString()}</div>
+          <div>Registrado: ${new Date(u.createdAt).toLocaleDateString()}</idv>
         `;
         usersList.appendChild(div);
       });
     }
   } catch (err) {
-    console.error(err);
     usersList.innerHTML = "<p>Error cargando usuarios.</p>";
   }
 
-  // ---- Cambio de estado de pedidos ----
-  ordersList.addEventListener("change", async (e) => {
+  // ---- Cambio de estado ----
+  ordersList.addEventListener("change", async e => {
     if (e.target.matches(".admin-status-select")) {
       const orderId = e.target.dataset.orderId;
       const newStatus = e.target.value;
@@ -633,14 +575,42 @@ async function initAdminPage() {
         const res = await apiFetch(`/api/admin/orders/${orderId}/status`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: newStatus }),
+          body: JSON.stringify({ status: newStatus })
         });
 
         if (!res.ok) throw new Error("Error actualizando estado");
       } catch (err) {
-        console.error(err);
-        alert("No se pudo actualizar el estado del pedido.");
+        alert("No se pudo actualizar el estado.");
       }
     }
   });
 }
+
+// =========================
+// INICIALIZACIÓN GLOBAL
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  updateNavAuth();
+  updateNavCartCount();
+
+  const page = document.body.dataset.page;
+
+  if (page === "menu") initMenuPage();
+  else if (page === "checkout") {
+    renderCartPanel();
+    updateCheckoutSummary();
+    initCheckoutPage();
+  }
+  else if (page === "login" || page === "register") initAuthPages();
+  else if (page === "profile") initProfilePage();
+  else if (page === "admin") initAdminPage();
+});
+
+// Listener global para botones del carrito
+document.addEventListener("click", e => {
+  if (e.target.matches(".cart-item-controls button")) {
+    const id = Number(e.target.dataset.id);
+    const delta = Number(e.target.dataset.delta);
+    changeCartQuantity(id, delta);
+  }
+});
