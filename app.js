@@ -47,7 +47,7 @@ function clearAuth() {
 }
 
 function apiFetch(path, options = {}) {
-  const headers = options.headers || {};
+  const headers = {...(options.headers || {})};
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
