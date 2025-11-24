@@ -2,49 +2,102 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Panel administrador | Q'aliGo</title>
+  <title>Q'aliGo | Admin</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body data-page="admin">
 
-  <!-- NAVBAR (puedes copiar el de menu.html) -->
+  <!-- NAVBAR (MISMA DEL MENÚ) -->
   <header class="navbar">
-    <div class="navbar-left">
-      <a href="menu.html" class="logo">Q'aliGo</a>
-      <a href="menu.html" class="nav-link">Menú</a>
-      <a href="profile.html" class="nav-link">Mi Cuenta</a>
-      <a href="admin.html" class="nav-link nav-link-active">Admin</a>
-    </div>
+    <div class="navbar-inner">
 
-    <div class="navbar-center">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Panel administrador" disabled />
+      <!-- IZQUIERDA -->
+      <div class="navbar-left">
+        <a href="menu.html" class="logo">
+          <span class="logo-mark">🥗</span>
+          <span class="logo-text">Q'aliGo</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="menu.html" class="nav-link">Menú</a>
+          <a href="profile.html" class="nav-link">Mi Cuenta</a>
+          <a href="admin.html" class="nav-link nav-link--active">Admin</a>
+        </nav>
       </div>
-    </div>
 
-    <div class="navbar-right">
-      <a id="nav-auth-btn" href="login.html" class="btn-outline">Iniciar sesión</a>
-      <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
-        🛒 <span id="nav-cart-count">0</span>
-      </button>
+      <!-- CENTRO -->
+      <div class="navbar-center">
+        <div class="search-box search-box--disabled">
+          <span class="search-icon">🔍</span>
+          <input disabled type="text" class="search-input" placeholder="Administración" />
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="navbar-right">
+        <button class="nav-icon-btn" id="nav-chat-toggle">💬</button>
+        <a id="nav-auth-btn" href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+
+        <button class="nav-cart-btn" onclick="window.location.href='checkout.html'">
+          🛒
+          <span id="nav-cart-count" class="nav-cart-count">0</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
-  <main class="admin-layout">
+  <!-- CONTENIDO ADMIN -->
+  <main class="main-layout">
+
+    <!-- COLUMNA IZQUIERDA ADMIN -->
     <section>
-      <h2>Pedidos</h2>
-      <div id="admin-orders-list" class="admin-list">
-        Cargando pedidos...
+      <div class="main-left-header">
+        <h1>Panel de Administración</h1>
+        <p>Controla pedidos, usuarios y estados del sistema.</p>
       </div>
+
+      <!-- SECCIÓN DE PEDIDOS -->
+      <section class="cart-panel" style="margin-bottom: 32px;">
+        <h2 class="cart-title">📦 Pedidos</h2>
+
+        <div id="admin-orders-list" class="admin-list">
+          <p>Cargando pedidos...</p>
+        </div>
+      </section>
+
+      <!-- SECCIÓN DE USUARIOS -->
+      <section class="cart-panel">
+        <h2 class="cart-title">👤 Usuarios</h2>
+
+        <div id="admin-users-list" class="admin-list">
+          <p>Cargando usuarios...</p>
+        </div>
+      </section>
     </section>
 
-    <section>
-      <h2>Usuarios</h2>
-      <div id="admin-users-list" class="admin-list">
-        Cargando usuarios...
-      </div>
-    </section>
+    <!-- COLUMNA DERECHA (CHATBOT Y/O VACÍA) -->
+    <aside>
+
+      <!-- CHATBOT -->
+      <section class="chatbot-panel" id="chatbot-panel">
+        <div class="chat-header">Asistente Virtual</div>
+        <small class="chat-subtitle">
+          AdminBot te puede explicar estados, flujos y operaciones.
+        </small>
+
+        <div class="chat-log" id="chat-log"></div>
+
+        <div class="chat-input-row">
+          <input id="chat-input" placeholder="Ej: ¿qué significa PREPARING?" />
+          <button id="chat-send-btn" class="btn--icon-pill">▶</button>
+        </div>
+
+      </section>
+
+    </aside>
+
   </main>
 
   <script src="app.js"></script>
